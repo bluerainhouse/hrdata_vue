@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import AboutView from "../views/AboutView.vue";
 import GraphExampleView from "../views/GraphExampleView.vue";
+import RecordView from "../views/RecordView.vue";
 
 const routes = [
   {
@@ -18,6 +19,11 @@ const routes = [
     path: "/graph-example",
     name: "graph-example",
     component: GraphExampleView,
+  },
+  {
+    path: "/record",
+    name: "record",
+    component: RecordView,
   },
 ];
 
