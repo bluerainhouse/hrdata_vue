@@ -17,10 +17,12 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav">
         <li class="nav-item active">
-          <router-link to="/about" class="nav-link">About</router-link>
+          <router-link to="/about" class="nav-link">關於</router-link>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Features</a>
+          <router-link to="/graph-example" class="nav-link"
+            >範例圖表</router-link
+          >
         </li>
         <li class="nav-item">
           <a class="nav-link" href="#">Pricing</a>
