@@ -3,6 +3,7 @@ import HomeView from "../views/HomeView.vue";
 import AboutView from "../views/AboutView.vue";
 import GraphExampleView from "../views/GraphExampleView.vue";
 import RecordView from "../views/RecordView.vue";
+import RecordDetailView from "../views/RecordDetailView.vue";
 
 const routes = [
   {
@@ -24,6 +25,11 @@ const routes = [
     path: "/record",
     name: "record",
     component: RecordView,
+  },
+  {
+    path: "/record-detail/:recordId",
+    name: "record-detail",
+    component: RecordDetailView,
   },
 ];
 

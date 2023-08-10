@@ -32,7 +32,11 @@
             <td>{{ record.i2 }}</td>
             <td>{{ record.i3 }}</td>
             <td>
-              <a class="btn btn-success">詳細內容</a>
+              <router-link
+                :to="`/record-detail/${record.id}`"
+                class="btn btn-success"
+                >詳細內容</router-link
+              >
             </td>
             <td>
               <a class="btn btn-danger" @click="deleteItem(record.id)">刪除</a>
@@ -61,7 +65,6 @@ export default {
   name: "RecordView",
   data() {
     return {
-      name: "",
       responseData: [],
       showTable: false,
     };
@@ -70,7 +73,7 @@ export default {
     fetchData() {
       // 使用 Axios 發送 GET 請求
       axios
-        .get("http://localhost:8080/allchart")
+        .get("http://localhost:8080/api/allchart")
         .then((response) => {
           // 成功處理返回的數據
           this.responseData = response.data;
@@ -83,7 +86,7 @@ export default {
     },
     deleteItem(recordId) {
       axios
-        .delete(`http://localhost:8080/${recordId}`)
+        .delete(`http://localhost:8080/api/${recordId}`)
         // eslint-disable-next-line no-unused-vars
         .then((response) => {
           console.log(response.data);
