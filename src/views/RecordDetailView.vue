@@ -212,7 +212,7 @@ export default {
 }
 
 .small {
-  font-size: 150%;
+  font-size: 120%;
 }
 
 div {

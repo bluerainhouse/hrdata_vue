@@ -73,7 +73,7 @@ export default {
     fetchData() {
       // 使用 Axios 發送 GET 請求
       axios
-        .get("http://localhost:8080/api/allchart")
+        .get("http://localhost:8080/api/record/allchart")
         .then((response) => {
           // 成功處理返回的數據
           this.responseData = response.data;
@@ -86,7 +86,7 @@ export default {
     },
     deleteItem(recordId) {
       axios
-        .delete(`http://localhost:8080/api/${recordId}`)
+        .delete(`http://localhost:8080/api/record/${recordId}`)
         // eslint-disable-next-line no-unused-vars
         .then((response) => {
           console.log(response.data);
