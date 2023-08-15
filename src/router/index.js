@@ -2,6 +2,7 @@ import { createRouter, createWebHistory } from "vue-router";
 import HomeView from "../views/HomeView.vue";
 import AboutView from "../views/AboutView.vue";
 import GraphExampleView from "../views/GraphExampleView.vue";
+import GraphView from "../views/GraphView.vue";
 import RecordView from "../views/RecordView.vue";
 import RecordDetailView from "../views/RecordDetailView.vue";
 import LoginPage from "../components/LoginPage.vue";
@@ -27,6 +28,11 @@ const routes = [
     path: "/graph-example",
     name: "graph-example",
     component: GraphExampleView,
+  },
+  {
+    path: "/graph",
+    name: "graph",
+    component: GraphView,
   },
   {
     path: "/record",

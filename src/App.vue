@@ -2,9 +2,9 @@
   <nav class="navbar navbar-expand navbar-dark bg-dark">
     <a href="/" class="navbar-brand">進階血壓計量測分析服務</a>
     <div class="navbar-nav mr-auto">
-      <li class="nav-item">
+      <!-- <li class="nav-item">
         <router-link to="/about" class="nav-link">關於</router-link>
-      </li>
+      </li> -->
       <li v-if="currentUser" class="nav-item">
         <router-link to="/record" class="nav-link">量測紀錄</router-link>
       </li>
@@ -14,9 +14,9 @@
         </router-link>
       </li>
       <li v-if="currentUser" class="nav-item">
-        <router-link to="/graph-example" class="nav-link"> 圖表 </router-link>
+        <router-link to="/graph" class="nav-link"> 圖表 </router-link>
       </li>
-      <li v-if="showAdminBoard" class="nav-item">
+      <!-- <li v-if="showAdminBoard" class="nav-item">
         <router-link to="/admin" class="nav-link">Admin Board</router-link>
       </li>
       <li v-if="showModeratorBoard" class="nav-item">
@@ -26,7 +26,7 @@
         <router-link v-if="currentUser" to="/user" class="nav-link"
           >User</router-link
         >
-      </li>
+      </li> -->
     </div>
 
     <div v-if="!currentUser" class="navbar-nav ml-auto">
