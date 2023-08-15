@@ -60,6 +60,7 @@
 
 <script>
 import axios from "axios";
+import authHeader from "../services/auth-header";
 
 export default {
   name: "RecordView",
@@ -73,11 +74,18 @@ export default {
     fetchData() {
       // 使用 Axios 發送 GET 請求
       axios
-        .get("http://localhost:8080/api/record/allchart")
+        .get("http://localhost:8080/api/record/allchart", {
+          headers: authHeader(),
+        })
         .then((response) => {
           // 成功處理返回的數據
           this.responseData = response.data;
-          this.showTable = true;
+          // 用魔法打敗魔法 不能設成"[]"
+          if (response.data != 0) {
+            this.showTable = true;
+          } else {
+            this.showTable = false;
+          }
         })
         .catch((error) => {
           // 處理錯誤

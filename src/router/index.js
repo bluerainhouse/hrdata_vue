@@ -4,6 +4,13 @@ import AboutView from "../views/AboutView.vue";
 import GraphExampleView from "../views/GraphExampleView.vue";
 import RecordView from "../views/RecordView.vue";
 import RecordDetailView from "../views/RecordDetailView.vue";
+import LoginPage from "../components/LoginPage.vue";
+import RegisterPage from "../components/RegisterPage.vue";
+// lazy-loaded
+const ProfilePage = () => import("../components/ProfilePage.vue");
+const BoardAdmin = () => import("../components/BoardAdmin.vue");
+const BoardModerator = () => import("../components/BoardModerator.vue");
+const BoardUser = () => import("../components/BoardUser.vue");
 
 const routes = [
   {
@@ -30,6 +37,38 @@ const routes = [
     path: "/record-detail/:recordId",
     name: "record-detail",
     component: RecordDetailView,
+  },
+  {
+    path: "/login",
+    component: LoginPage,
+  },
+  {
+    path: "/register",
+    component: RegisterPage,
+  },
+  {
+    path: "/profile",
+    name: "profile",
+    // lazy-loaded
+    component: ProfilePage,
+  },
+  {
+    path: "/admin",
+    name: "admin",
+    // lazy-loaded
+    component: BoardAdmin,
+  },
+  {
+    path: "/mod",
+    name: "moderator",
+    // lazy-loaded
+    component: BoardModerator,
+  },
+  {
+    path: "/user",
+    name: "user",
+    // lazy-loaded
+    component: BoardUser,
   },
 ];
 

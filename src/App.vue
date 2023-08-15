@@ -1,57 +1,61 @@
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
-      <router-link to="/" class="navbar-brand">
-        進階血壓計量測分析服務
-      </router-link>
-      <button
-        class="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-        @click="toggleNavbar"
-      >
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div
-        class="collapse navbar-collapse"
-        id="navbarNav"
-        :class="{ show: isNavbarOpen }"
-      >
-        <ul class="navbar-nav">
-          <li class="nav-item">
-            <router-link to="/about" class="nav-link">關於</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/record" class="nav-link">量測紀錄</router-link>
-          </li>
-          <li class="nav-item">
-            <router-link to="/graph-example" class="nav-link">
-              範例圖表
-            </router-link>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="#">Pricing</a>
-          </li>
-          <li class="nav-item">
-            <a
-              class="nav-link disabled"
-              href="#"
-              tabindex="-1"
-              aria-disabled="true"
-            >
-              Disabled
-            </a>
-          </li>
-        </ul>
-      </div>
+  <nav class="navbar navbar-expand navbar-dark bg-dark">
+    <a href="/" class="navbar-brand">進階血壓計量測分析服務</a>
+    <div class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <router-link to="/about" class="nav-link">關於</router-link>
+      </li>
+      <li class="nav-item">
+        <router-link to="/record" class="nav-link">量測紀錄</router-link>
+      </li>
+      <li class="nav-item">
+        <router-link to="/graph-example" class="nav-link">
+          範例圖表
+        </router-link>
+      </li>
+      <li v-if="showAdminBoard" class="nav-item">
+        <router-link to="/admin" class="nav-link">Admin Board</router-link>
+      </li>
+      <li v-if="showModeratorBoard" class="nav-item">
+        <router-link to="/mod" class="nav-link">Moderator Board</router-link>
+      </li>
+      <li class="nav-item">
+        <router-link v-if="currentUser" to="/user" class="nav-link"
+          >User</router-link
+        >
+      </li>
+    </div>
+
+    <div v-if="!currentUser" class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <router-link to="/register" class="nav-link">
+          <font-awesome-icon icon="user-plus" /> Sign Up
+        </router-link>
+      </li>
+      <li class="nav-item">
+        <router-link to="/login" class="nav-link">
+          <font-awesome-icon icon="sign-in-alt" /> Login
+        </router-link>
+      </li>
+    </div>
+
+    <div v-if="currentUser" class="navbar-nav ml-auto">
+      <li class="nav-item">
+        <router-link to="/profile" class="nav-link">
+          <font-awesome-icon icon="user" />
+          {{ currentUser.username }}
+        </router-link>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" @click.prevent="logOut">
+          <font-awesome-icon icon="sign-out-alt" /> LogOut
+        </a>
+      </li>
     </div>
   </nav>
-
-  <router-view />
+  <div class="container">
+    <router-view />
+  </div>
 </template>
 
 <style>
@@ -71,9 +75,32 @@ export default {
       isNavbarOpen: false,
     };
   },
+  computed: {
+    currentUser() {
+      return this.$store.state.auth.user;
+    },
+    showAdminBoard() {
+      if (this.currentUser && this.currentUser["roles"]) {
+        return this.currentUser["roles"].includes("ROLE_ADMIN");
+      }
+
+      return false;
+    },
+    showModeratorBoard() {
+      if (this.currentUser && this.currentUser["roles"]) {
+        return this.currentUser["roles"].includes("ROLE_MODERATOR");
+      }
+
+      return false;
+    },
+  },
   methods: {
     toggleNavbar() {
       this.isNavbarOpen = !this.isNavbarOpen;
+    },
+    logOut() {
+      this.$store.dispatch("auth/logout");
+      this.$router.push("/login");
     },
   },
 };

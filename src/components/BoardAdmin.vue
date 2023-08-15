@@ -6,22 +6,18 @@
   </div>
 </template>
 
-<style lang="scss">
-@import "~bootstrap/scss/bootstrap";
-</style>
-
 <script>
 import UserService from "../services/user.service";
 
 export default {
-  name: "HomeView",
+  name: "UserPage",
   data() {
     return {
       content: "",
     };
   },
   mounted() {
-    UserService.getPublicContent().then(
+    UserService.getAdminBoard().then(
       (response) => {
         this.content = response.data;
       },
