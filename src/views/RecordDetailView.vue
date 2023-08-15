@@ -141,6 +141,7 @@
 
 <script>
 import axios from "axios";
+import authHeader from "../services/auth-header";
 
 export default {
   name: "RecordDetailView",
@@ -154,7 +155,9 @@ export default {
     fetchData(id) {
       // 使用 Axios 發送 GET 請求
       axios
-        .get(`http://localhost:8080/api/record/${id}`)
+        .get(`http://localhost:8080/api/record/${id}`, {
+          headers: authHeader(),
+        })
         .then((response) => {
           // 成功處理返回的數據
           this.record = response.data;
