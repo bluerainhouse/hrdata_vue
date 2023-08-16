@@ -14,7 +14,12 @@ export default {
     },
   },
   mounted() {
-    this.chart = new Highcharts.Chart(this.$refs.chartContainer, this.options);
+    this.$nextTick(() => {
+      this.chart = new Highcharts.Chart(
+        this.$refs.chartContainer,
+        this.options
+      );
+    });
   },
   beforeUnmount() {
     if (this.chart) {

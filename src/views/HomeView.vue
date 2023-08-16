@@ -6,10 +6,6 @@
   </div>
 </template>
 
-<style lang="scss">
-@import "~bootstrap/scss/bootstrap";
-</style>
-
 <script>
 import UserService from "../services/user.service";
 
