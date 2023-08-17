@@ -1,84 +1,140 @@
 <template>
-  <br />
-  <div class="container">
-    <br /><br /><br />
-    <div id="chartContainer"></div>
-    <br /><br /><br />
+  <div class="all">
+    <div class="row"></div>
+    <div class="row"></div>
+    <div class="row"></div>
+    <div class="row"></div>
+    <div class="row"></div>
+    <div class="row"></div>
+    <div
+      class="col"
+      id="bpgraph"
+      style="width: 600px; height: 450px; margin: 0 auto"
+    ></div>
+    <div class="col">
+      <h2>關於血壓</h2>
+      <div class="row">
+        <div class="col" id="small" style="color: blue; font-weight: bold">
+          高血壓說明
+        </div>
+        <div class="col" id="small" style="color: blue; font-weight: bold">
+          收縮壓
+        </div>
+        <div class="col" id="small" style="color: blue; font-weight: bold">
+          舒張壓
+        </div>
+      </div>
+      <div class="row">
+        <div class="col" id="small">第二期高血壓</div>
+        <div class="col" id="small" style="color: red">>160</div>
+        <div class="col" id="small" style="color: red">>100</div>
+      </div>
+      <div class="row">
+        <div class="col" id="small">第一期高血壓</div>
+        <div class="col" id="small" style="color: rgb(255, 128, 64)">
+          140-159
+        </div>
+        <div class="col" id="small" style="color: rgb(255, 128, 64)">90-99</div>
+      </div>
+      <div class="row">
+        <div class="col" id="small">前期高血壓</div>
+        <div class="col" id="small" style="color: rgb(255, 128, 64)">
+          120-139
+        </div>
+        <div class="col" id="small" style="color: rgb(255, 128, 64)">80-89</div>
+      </div>
+      <div class="row">
+        <div class="col" id="small">正常</div>
+        <div class="col" id="small" style="color: green">90-119</div>
+        <div class="col" id="small" style="color: green">60-79</div>
+      </div>
+    </div>
+    <div class="row"><br /><br /><br /></div>
+    <div class="row"><br /><br /><br /></div>
+    <div
+      id="bphrgraph"
+      style="width: 600px; height: 450px; margin: 0 auto"
+    ></div>
+    <div class="row"></div>
+    <div class="row"><br /><br /><br /></div>
+    <div class="row"><br /><br /><br /></div>
+    <div id="igraph" style="width: 600px; height: 450px; margin: 0 auto"></div>
+    <div class="col">
+      <div class="row"></div>
+      <div class="row"></div>
+      <h2>關於i1、i2、i3</h2>
+      <div class="row"></div>
+      <div class="row"></div>
+      <div class="row"></div>
+      <div class="row"></div>
+
+      <div class="row">
+        <div class="col" id="small">0</div>
+        <div class="col" id="small">1~3</div>
+        <div class="col" id="small">3以上</div>
+      </div>
+      <div class="row">
+        <div class="col" id="small">健康</div>
+        <div class="col" id="small">須注意</div>
+        <div class="col" id="small">建議就醫</div>
+      </div>
+    </div>
   </div>
 </template>
 
+<style scoped>
+.all {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  padding: 10px;
+}
+
+.col {
+  padding: 10px;
+  text-align: center;
+}
+
+.safe {
+  color: green;
+}
+
+.middle {
+  color: rgb(255, 128, 64);
+}
+
+.danger {
+  color: red;
+}
+
+#small {
+  font-size: 100%;
+}
+
+h2 {
+  font-weight: bold;
+  text-align: center;
+}
+</style>
+
 <script>
-import { renderChart } from "./chartRenderer.js"; // 替换为正确的路径
+import { BpHrChart } from "./BpHrChartRenderer.js";
+import { BpChart } from "./BpChartRenderer.js";
+import { IChart } from "./IChartRenderer.js";
+
 import authHeader from "@/services/auth-header";
 import axios from "axios";
 
 export default {
   name: "GraphView",
-  computed: {
-    BpHrChart() {
-      const chartOptions = {
-        title: {
-          text: "血壓與脈搏監測",
-        },
-        subtitle: {
-          text: "來源: 量測儀器",
-        },
-        xAxis: {
-          categories: this.categories,
-        },
-        yAxis: [
-          {
-            title: {
-              text: "血壓 (mmHg)",
-            },
-          },
-          {
-            title: {
-              text: "脈搏 (bpm)",
-            },
-            opposite: true,
-          },
-        ],
-      };
-      chartOptions.series = [
-        {
-          type: "column",
-          name: "脈搏",
-          data: this.hr,
-          marker: {
-            lineColor: "rgb(100,100,100)",
-          },
-        },
-        {
-          type: "spline",
-          name: "收縮壓",
-          data: this.highBp,
-          marker: {
-            lineWidth: 2,
-            lineColor: "rgb(100,100,100)",
-            fillColor: "white",
-          },
-        },
-        {
-          type: "spline",
-          name: "舒張壓",
-          data: this.lowBp,
-          marker: {
-            lineWidth: 2,
-            lineColor: "rgb(100,100,100)",
-            fillColor: "white",
-          },
-        },
-      ];
-
-      return chartOptions;
-    },
-  },
   props: ["user"],
   data() {
     return {
       responseData: [],
-      bigarray: [],
       categories: [],
       highBp: [],
       lowBp: [],
@@ -87,7 +143,10 @@ export default {
       i2: [],
       i3: [],
       sum: [],
-      chartData: [],
+      smallarray: [],
+      BpChartData: [],
+      BpHrChartData: [],
+      IChartData: [],
     };
   },
   methods: {
@@ -101,6 +160,8 @@ export default {
         );
         this.responseData = response.data;
         this.responseData.forEach((item) => {
+          let time = item.recordDate.toString();
+          this.BpChartData.push({ x: item.highBp, y: item.lowBp, name: time });
           this.categories.push(item.recordDate);
           this.highBp.push(item.highBp);
           this.lowBp.push(item.lowBp);
@@ -110,18 +171,21 @@ export default {
           this.i3.push(item.i3);
           this.sum.push(item.i1 + item.i2 + item.i3);
         });
-        this.chartData.categories = this.categories;
-        this.chartData.highBp = this.highBp;
-        this.chartData.lowBp = this.lowBp;
-        this.chartData.hr = this.hr;
-        console.log(this.chartData);
-        this.renderChart(this.chartData);
+        this.BpHrChartData.categories = this.categories;
+        this.BpHrChartData.highBp = this.highBp;
+        this.BpHrChartData.lowBp = this.lowBp;
+        this.BpHrChartData.hr = this.hr;
+        this.IChartData.categories = this.categories;
+        this.IChartData.i1 = this.i1;
+        this.IChartData.i2 = this.i2;
+        this.IChartData.i3 = this.i3;
+        this.IChartData.sum = this.sum;
+        BpHrChart(this.BpHrChartData);
+        BpChart(this.BpChartData);
+        IChart(this.IChartData);
       } catch (error) {
         console.error(error);
       }
-    },
-    renderChart(chartData) {
-      renderChart(chartData);
     },
   },
   async mounted() {

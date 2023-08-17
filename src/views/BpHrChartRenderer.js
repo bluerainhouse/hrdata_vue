@@ -1,6 +1,6 @@
 import Highcharts from "highcharts";
 
-export function renderChart(chartData) {
+export function BpHrChart(chartData) {
   const chartOptions = {
     title: {
       text: "血壓與脈搏監測",
@@ -56,5 +56,5 @@ export function renderChart(chartData) {
     ],
   };
 
-  return new Highcharts.Chart("chartContainer", chartOptions);
+  return new Highcharts.Chart("bphrgraph", chartOptions);
 }
